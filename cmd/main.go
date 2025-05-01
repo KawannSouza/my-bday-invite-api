@@ -11,6 +11,7 @@ import (
 func main()  {
 	config.LoadEnv()
 	db.Connect()
+	db.Migrate()
 
 	port := config.GetEnv("PORT", "8080")
 	e := echo.New()

@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/KawannSouza/my-bday-invite-api/internal/model"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -24,4 +25,12 @@ func Connect() {
 
 	DB = db 
 	fmt.Println("✅ Database connection established!")
+}
+
+func Migrate() {
+	err := DB.AutoMigrate(&model.User{})
+	if err != nil {
+		log.Fatal("Failed to migrate database:", err)
+	}
+	fmt.Println("✅ Table migration complete!")
 }
