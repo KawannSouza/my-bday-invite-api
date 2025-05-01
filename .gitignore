@@ -1,0 +1,33 @@
+# Binaries
+/birthday-invite-api
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Go build artifacts
+*.test
+*.out
+
+# Diretórios comuns de build
+/bin/
+/build/
+/dist/
+
+# VSCode
+.vscode/
+
+# Arquivo de ambiente
+.env
+
+# Módulos e cache (opcional, geralmente não ignorado)
+# /vendor/
+# go.sum
+
+# Logs
+*.log
+
+# Sistema
+.DS_Store
+Thumbs.db
