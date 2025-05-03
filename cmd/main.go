@@ -5,6 +5,7 @@ import (
 
 	"github.com/KawannSouza/my-bday-invite-api/internal/config"
 	"github.com/KawannSouza/my-bday-invite-api/internal/db"
+	"github.com/KawannSouza/my-bday-invite-api/internal/handlers"
 	"github.com/labstack/echo/v4"
 )
 
@@ -19,6 +20,8 @@ func main()  {
 	e.GET("/", func(c echo.Context) error {
 		return c.String(200, "API is running 🎉")
 	})
+
+	e.POST("/invite/register", handlers.Register)
 
 	log.Printf("Starting server on port %s", port)
 	e.Logger.Fatal(e.Start(":" + port))
