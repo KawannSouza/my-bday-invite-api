@@ -22,6 +22,7 @@ func main()  {
 	})
 
 	e.POST("/invite/register", handlers.Register)
+	e.POST("/invite/login", handlers.Login)
 
 	log.Printf("Starting server on port %s", port)
 	e.Logger.Fatal(e.Start(":" + port))
