@@ -11,10 +11,10 @@ import (
 )
 
 type CreateInviteInput struct {
-	Title string `json:"title"`
-	Description string `json:"description"`
-	EventDate time.Time `json:"event_date"`
-	Background string `json:"background"`
+	Title 		string    `json:"title"`
+	Description string 	  `json:"description"`
+	EventDate 	string    `json:"event_date"`
+	Background 	string 	  `json:"background"`
 }
 
 func CreateInvite(c echo.Context) error {
@@ -29,11 +29,16 @@ func CreateInvite(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, echo.Map{"error" : "Internal server error"})
 	}
 
+	eventDate, err := time.Parse("2006-01-02 15:04:05", input.EventDate)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, echo.Map{"error" : "Invalid event date format"})
+	}
+
 	invite := model.Invite{
 		UserID: 	 userID,
 		Title: 		 input.Title,
 		Description: input.Description,
-		EventDate:   input.EventDate,
+		EventDate:   eventDate,
 		Background:  input.Background,
 	}
 
