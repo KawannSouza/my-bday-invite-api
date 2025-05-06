@@ -28,6 +28,7 @@ func main()  {
 	e.POST("/invite/register", handlers.Register)
 	e.POST("/invite/login", handlers.Login)
 
+	authGroup.GET("/invites", handlers.ListUserInvites)
 	authGroup.POST("/invite", handlers.CreateInvite)
 
 	log.Printf("Starting server on port %s", port)
