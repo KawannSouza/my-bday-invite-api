@@ -48,3 +48,18 @@ func CreateInvite(c echo.Context) error {
 
 	return c.JSON(http.StatusCreated, invite)
 }
+
+func ListUserInvites(c echo.Context) error {
+	userIDStr := c.Get("user_id").(string)
+	userID, err := uuid.Parse(userIDStr)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error" : "Internal server error"})
+	}
+
+	var invites []model.Invite
+	if err := db.DB.Where("user_id = ?", userID).Find(&invites).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error" : "Internal server error"})
+	}
+
+	return c.JSON(http.StatusOK, invites)
+}
