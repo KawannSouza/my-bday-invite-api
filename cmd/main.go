@@ -30,6 +30,7 @@ func main()  {
 
 	authGroup.GET("/invites", handlers.ListUserInvites)
 	authGroup.POST("/invite", handlers.CreateInvite)
+	authGroup.PUT("/invites/:id", handlers.UpdateInvite)
 
 	log.Printf("Starting server on port %s", port)
 	e.Logger.Fatal(e.Start(":" + port))
