@@ -37,3 +37,29 @@ func ConfirmPresence(c echo.Context) error {
 
 	return c.JSON(http.StatusCreated, confirmation)
 }
+
+func GetConfirmations(c echo.Context) error {
+	userIDStr := c.Get("user_id").(string)
+	inviteID := c.Param("id")
+
+	userID, err := uuid.Parse(userIDStr)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error" : "Invalid user ID"})
+	}
+
+	var invite model.Invite
+	if err := db.DB.First(&invite, "id = ?", inviteID).Error; err != nil {
+		return c.JSON(http.StatusNotFound, echo.Map{"error" : "invite not found"})
+	}
+
+	if invite.UserID != userID {
+		return c.JSON(http.StatusForbidden, echo.Map{"error" : "You do not have permission to access this invite"})
+	}
+
+	var confirmations []model.Confirmation
+	if err := db.DB.Where("invite_id = ?", invite.ID).Find(&confirmations).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error" : "Failed to retrieve confirmations"})
+	}
+
+	return c.JSON(http.StatusOK, confirmations)
+}
