@@ -31,7 +31,8 @@ func main()  {
 	e.POST("/invites", handlers.ConfirmPresence)
 
 	authGroup.GET("/invites", handlers.ListUserInvites)
-	authGroup.POST("/invite", handlers.CreateInvite)
+	authGroup.GET("/invites/:id/confirmations", handlers.GetConfirmations)
+	authGroup.POST("/invites", handlers.CreateInvite)
 	authGroup.PUT("/invites/:id", handlers.UpdateInvite)
 	authGroup.DELETE("/invites/:id", handlers.DeleteInvite)
 
