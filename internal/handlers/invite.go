@@ -100,3 +100,28 @@ func UpdateInvite(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, invite)
 }
+
+func DeleteInvite(c echo.Context) error {
+	inviteID := c.Param("id")
+	userIDStr := c.Get("user_id").(string)
+
+	userID, err := uuid.Parse(userIDStr)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error" : "Internal server error"})
+	}
+
+	var invite model.Invite
+	if err := db.DB.Where("id = ? AND user_id = ?", inviteID, userID).First(&invite).Error; err != nil {
+		return c.JSON(http.StatusNotFound, echo.Map{"error" : "Invite not found"})
+	}
+
+	if invite.UserID != userID {
+		return c.JSON(http.StatusForbidden, echo.Map{"error" : "You do not have permission to delete this invite"})
+	}
+
+	if err := db.DB.Delete(&invite).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error" : "Internal server error"})
+	}
+
+	return c.NoContent(http.StatusNoContent)
+}
