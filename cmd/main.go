@@ -28,6 +28,8 @@ func main()  {
 	e.POST("/invite/register", handlers.Register)
 	e.POST("/invite/login", handlers.Login)
 
+	e.POST("/invites", handlers.ConfirmPresence)
+
 	authGroup.GET("/invites", handlers.ListUserInvites)
 	authGroup.POST("/invite", handlers.CreateInvite)
 	authGroup.PUT("/invites/:id", handlers.UpdateInvite)
