@@ -28,6 +28,7 @@ func main()  {
 	e.POST("/invite/register", handlers.Register)
 	e.POST("/invite/login", handlers.Login)
 
+	e.GET("/invites/:id", handlers.GetInviteByCode)
 	e.POST("/invites", handlers.ConfirmPresence)
 
 	authGroup.GET("/invites", handlers.ListUserInvites)
