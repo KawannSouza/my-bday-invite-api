@@ -4,10 +4,11 @@ import (
 	"log"
 
 	"github.com/KawannSouza/my-bday-invite-api/internal/config"
-	"github.com/KawannSouza/my-bday-invite-api/internal/utils"
 	"github.com/KawannSouza/my-bday-invite-api/internal/db"
 	"github.com/KawannSouza/my-bday-invite-api/internal/handlers"
+	"github.com/KawannSouza/my-bday-invite-api/internal/utils"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func main()  {
@@ -17,6 +18,13 @@ func main()  {
 
 	port := config.GetEnv("PORT", "8080")
 	e := echo.New()
+
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins:     []string{"http://localhost:5173"},
+		AllowMethods:     []string{echo.GET, echo.POST, echo.PUT, echo.DELETE},
+		AllowHeaders:     []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization},
+		AllowCredentials: true,
+	}))
 
 	authGroup := e.Group("/auth")
 	authGroup.Use(utils.AuthMiddleware)
